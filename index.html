@@ -1,0 +1,331 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AutonomIA Beta 1.1</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand">
+      <div class="logo">A</div>
+      <div>
+        <strong>AutonomIA</strong>
+        <span>Menos gestión. Más tiempo para tus pacientes.</span>
+      </div>
+    </div>
+    <nav>
+      <button data-screen="dashboard" class="nav-btn active">Inicio</button>
+      <button data-screen="agenda" class="nav-btn">Agenda</button>
+      <button data-screen="patients" class="nav-btn">Pacientes</button>
+      <button data-screen="invoices" class="nav-btn">Facturas</button>
+      <button data-screen="templates" class="nav-btn">Plantillas</button>
+      <button data-screen="business" class="nav-btn business-btn">Mi negocio</button>
+    </nav>
+  </header>
+
+  <main>
+    <section id="dashboard" class="screen active">
+      <div class="hero">
+        <div>
+          <p class="eyebrow">Resumen de hoy</p>
+          <h1>Buenos días, Mónica 👋</h1>
+          <p>Hoy tienes 4 citas, 1 factura pendiente de emitir y 1 pago pendiente.</p>
+        </div>
+        <button class="primary" data-jump="agenda">+ Nueva cita</button>
+      </div>
+
+      <div class="metrics">
+        <article><span>Citas de hoy</span><strong>4</strong><small>Próxima: 12:30</small></article>
+        <article><span>Por facturar</span><strong>1</strong><small>60,00 €</small></article>
+        <article><span>Pendiente de cobro</span><strong>1</strong><small>80,00 €</small></article>
+      </div>
+
+      <div class="grid two">
+        <article class="card">
+          <div class="card-head"><h2>Agenda de hoy</h2><button data-jump="agenda">Ver agenda</button></div>
+          <div class="timeline">
+            <div class="row done"><time>09:30</time><div><b>Laura Martín</b><span>Sesión presencial</span></div><em>Cobrada</em></div>
+            <div class="row"><time>11:00</time><div><b>Daniel Ruiz</b><span>Sesión online</span></div><button class="small invoice-action" data-client="Daniel Ruiz" data-price="60">Crear factura</button></div>
+            <div class="row upcoming"><time>12:30</time><div><b>Sofía Pérez</b><span>Primera consulta</span></div><em>Próxima</em></div>
+          </div>
+        </article>
+
+        <article class="card">
+          <h2>Siguiente paso recomendado</h2>
+          <p>La sesión con Daniel ha finalizado y todavía no tiene factura.</p>
+          <button class="primary invoice-action" data-client="Daniel Ruiz" data-price="60">Crear factura</button>
+        </article>
+      </div>
+    </section>
+
+    <section id="agenda" class="screen">
+      <div class="page-head">
+        <div><h1>Agenda</h1><p>Gestiona tus citas y continúa el flujo desde cada sesión.</p></div>
+        <button class="primary" id="showAppointmentForm">+ Nueva cita</button>
+      </div>
+
+      <div class="grid agenda-grid">
+        <article class="card">
+          <div class="card-head"><h2>Hoy · 10 de julio de 2026</h2><span class="badge">Google Calendar · próximamente</span></div>
+          <div id="appointmentList" class="timeline">
+            <div class="row done"><time>09:30</time><div><b>Laura Martín</b><span>Presencial · 60 €</span></div><em>Cobrada</em></div>
+            <div class="row"><time>11:00</time><div><b>Daniel Ruiz</b><span>Online · 60 €</span></div><button class="small invoice-action" data-client="Daniel Ruiz" data-price="60">Crear factura</button></div>
+            <div class="row upcoming"><time>12:30</time><div><b>Sofía Pérez</b><span>Primera consulta · 80 €</span></div><em>Confirmada</em></div>
+            <div class="row upcoming"><time>17:00</time><div><b>Mario Gómez</b><span>Seguimiento · 60 €</span></div><em>Pendiente</em></div>
+          </div>
+        </article>
+
+        <article class="card" id="appointmentForm">
+          <h2>Nueva cita</h2>
+          <label>Paciente<input id="apptPatient" placeholder="Nombre del paciente"></label>
+          <div class="form-grid">
+            <label>Fecha<input id="apptDate" type="date"></label>
+            <label>Hora<input id="apptTime" type="time"></label>
+          </div>
+          <label>Servicio
+            <select id="apptService">
+              <option>Primera consulta</option>
+              <option>Sesión presencial</option>
+              <option>Sesión online</option>
+              <option>Seguimiento</option>
+            </select>
+          </label>
+          <label>Tarifa (€)<input id="apptPrice" type="number" value="60"></label>
+          <button class="primary" id="saveAppointment">Guardar cita</button>
+          <p class="status" id="apptStatus"></p>
+        </article>
+      </div>
+    </section>
+
+    <section id="patients" class="screen">
+      <div class="page-head">
+        <div><h1>Pacientes</h1><p>Información administrativa, citas, facturas y pagos.</p></div>
+        <button class="primary" id="newPatientBtn">+ Nuevo paciente</button>
+      </div>
+
+      <article class="card">
+        <div class="toolbar">
+          <input id="patientSearch" placeholder="Buscar paciente...">
+          <select id="patientFilter">
+            <option value="all">Todos</option>
+            <option value="pending">Con pagos pendientes</option>
+            <option value="upcoming">Con próxima cita</option>
+          </select>
+        </div>
+
+        <div id="patientList">
+          <div class="patient-row" data-tags="upcoming">
+            <div class="avatar">LM</div>
+            <div><b>Laura Martín</b><span>Próxima cita: 17 julio · Sin pagos pendientes</span></div>
+            <button class="secondary open-patient" data-name="Laura Martín">Abrir ficha</button>
+          </div>
+          <div class="patient-row" data-tags="pending upcoming">
+            <div class="avatar">DR</div>
+            <div><b>Daniel Ruiz</b><span>Próxima cita: 18 julio · 1 factura pendiente</span></div>
+            <button class="secondary open-patient" data-name="Daniel Ruiz">Abrir ficha</button>
+          </div>
+          <div class="patient-row" data-tags="upcoming">
+            <div class="avatar">SP</div>
+            <div><b>Sofía Pérez</b><span>Primera cita: hoy 12:30</span></div>
+            <button class="secondary open-patient" data-name="Sofía Pérez">Abrir ficha</button>
+          </div>
+        </div>
+      </article>
+
+      <article id="patientDetail" class="card hidden">
+        <div class="card-head">
+          <div><h2 id="patientName">Paciente</h2><p>Ficha administrativa</p></div>
+          <button class="secondary" id="closePatient">Cerrar</button>
+        </div>
+        <div class="detail-grid">
+          <div><span>Teléfono</span><b>600 123 123</b></div>
+          <div><span>Email</span><b>paciente@email.com</b></div>
+          <div><span>Próxima cita</span><b>18 julio · 11:00</b></div>
+          <div><span>Tarifa habitual</span><b>60 €</b></div>
+        </div>
+        <div class="button-row">
+          <button class="primary" data-jump="agenda">Nueva cita</button>
+          <button class="secondary invoice-action" data-client="" data-price="60" id="patientInvoiceBtn">Crear factura</button>
+          <button class="secondary" data-jump="templates">Enviar email</button>
+        </div>
+      </article>
+    </section>
+
+    <section id="invoices" class="screen">
+      <div class="page-head">
+        <div><h1>Facturas</h1><p>Crea facturas desde una cita o manualmente.</p></div>
+        <button class="primary" id="manualInvoice">+ Crear factura</button>
+      </div>
+
+      <div class="tabs">
+        <button class="tab active" data-filter="all">Todas</button>
+        <button class="tab" data-filter="pending">Pendientes</button>
+        <button class="tab" data-filter="sent">Enviadas</button>
+        <button class="tab" data-filter="paid">Cobradas</button>
+      </div>
+
+      <article class="card">
+        <div id="invoiceList">
+          <div class="invoice-row" data-state="paid"><b>FAC-001</b><span>Laura Martín</span><span>07/07/2026</span><strong>60,00 €</strong><em class="paid">Cobrada</em></div>
+          <div class="invoice-row" data-state="sent"><b>FAC-002</b><span>Carlos Rodríguez</span><span>08/07/2026</span><strong>80,00 €</strong><em class="sent">Enviada</em></div>
+          <div class="invoice-row" data-state="pending"><b>Pendiente</b><span>Daniel Ruiz</span><span>Sesión 10/07/2026</span><strong>60,00 €</strong><button class="small invoice-action" data-client="Daniel Ruiz" data-price="60">Crear factura</button></div>
+        </div>
+      </article>
+
+      <article id="invoiceCreator" class="card hidden">
+        <div class="card-head"><h2>Crear factura</h2><button class="secondary" id="closeInvoice">Cerrar</button></div>
+        <div class="form-grid">
+          <label>Paciente<input id="invoiceClient"></label>
+          <label>Fecha<input id="invoiceDate" type="date"></label>
+        </div>
+        <label>Concepto<input id="invoiceConcept" value="Sesión profesional"></label>
+        <div class="form-grid">
+          <label>Base imponible (€)<input id="invoiceBase" type="number" value="60"></label>
+          <label>IVA
+            <select id="invoiceVat">
+              <option value="0">0 %</option>
+              <option value="21">21 %</option>
+            </select>
+          </label>
+        </div>
+        <div class="invoice-summary">
+          <span>Total</span><strong id="invoiceTotal">60,00 €</strong>
+        </div>
+        <div class="button-row">
+          <button class="secondary" id="previewInvoice">Vista previa</button>
+          <button class="primary" id="printInvoice">Imprimir / guardar PDF</button>
+        </div>
+      </article>
+    </section>
+
+    <section id="templates" class="screen">
+      <div class="page-head">
+        <div><h1>Plantillas</h1><p>Documentos y correos administrativos listos para personalizar.</p></div>
+      </div>
+
+      <div class="template-grid">
+        <article class="card template"><span>📧</span><h2>Enviar factura</h2><p>Email profesional para adjuntar una factura.</p><button class="secondary use-template" data-template="invoiceEmail">Crear</button></article>
+        <article class="card template"><span>💳</span><h2>Recordatorio de pago</h2><p>Mensaje amable para reclamar una factura pendiente.</p><button class="secondary use-template" data-template="paymentEmail">Crear</button></article>
+        <article class="card template"><span>📅</span><h2>Recordatorio de cita</h2><p>Confirma fecha, hora y modalidad de la sesión.</p><button class="secondary use-template" data-template="appointmentEmail">Crear</button></article>
+        <article class="card template"><span>📄</span><h2>Justificante de asistencia</h2><p>Documento administrativo para el paciente.</p><button class="secondary use-template" data-template="attendance">Crear</button></article>
+      </div>
+
+      <article id="templateEditor" class="card hidden">
+        <div class="card-head"><h2 id="templateTitle">Plantilla</h2><button class="secondary" id="closeTemplate">Cerrar</button></div>
+        <label>Asunto<input id="templateSubject"></label>
+        <label>Contenido<textarea id="templateBody" rows="10"></textarea></label>
+        <button class="primary" id="copyTemplate">Copiar contenido</button>
+        <p class="status" id="templateStatus"></p>
+      </article>
+    </section>
+
+    <section id="business" class="screen">
+      <div class="page-head">
+        <div><h1>Mi negocio</h1><p>Configura una vez los datos que AutonomIA reutilizará.</p></div>
+        <button class="primary" id="saveBusiness">Guardar cambios</button>
+      </div>
+
+      <div class="grid two">
+        <article class="card">
+          <h2>Datos profesionales</h2>
+          <label>Nombre profesional<input value="Mónica Pérez"></label>
+          <label>NIF<input value="12345678X"></label>
+          <label>Nombre de la consulta<input value="Consulta Mónica Pérez"></label>
+          <label>Email<input value="monica@consulta.es"></label>
+          <label>Dirección<input value="Málaga"></label>
+        </article>
+
+        <article class="card">
+          <h2>Facturación</h2>
+          <label>Serie de facturas<input value="FAC-"></label>
+          <label>IVA habitual
+            <select><option>0 %</option><option>21 %</option></select>
+          </label>
+          <label>Forma de pago<input value="Transferencia bancaria"></label>
+          <label>Cuenta bancaria<input placeholder="IBAN"></label>
+          <label>Pie de factura<input value="Gracias por confiar en nosotros."></label>
+        </article>
+
+        <article class="card">
+          <h2>Tarifas</h2>
+          <div class="rate-row"><span>Primera consulta</span><input value="80"><b>€</b></div>
+          <div class="rate-row"><span>Sesión presencial</span><input value="60"><b>€</b></div>
+          <div class="rate-row"><span>Sesión online</span><input value="55"><b>€</b></div>
+          <button class="secondary">+ Añadir tarifa</button>
+        </article>
+
+        <article class="card">
+          <h2>Modelos de factura</h2>
+          <div class="model-row"><div><b>Modelo estándar</b><span>Para pacientes particulares</span></div><button class="secondary">Editar</button></div>
+          <div class="model-row"><div><b>Gabinete Centro</b><span>Formato solicitado por el gabinete</span></div><button class="secondary">Editar</button></div>
+          <button class="secondary">+ Crear modelo</button>
+        </article>
+      </div>
+      <p class="status" id="businessStatus"></p>
+    </section>
+  
+    <section id="printableInvoice" class="printable-invoice">
+      <div class="invoice-doc">
+        <div class="invoice-doc-head">
+          <div>
+            <h1>FACTURA</h1>
+            <p id="printInvoiceNumber">FAC-003</p>
+          </div>
+          <div class="invoice-business">
+            <strong>Consulta Mónica Pérez</strong>
+            <span>Mónica Pérez · NIF 12345678X</span>
+            <span>Málaga</span>
+            <span>monica@consulta.es</span>
+          </div>
+        </div>
+
+        <div class="invoice-parties">
+          <div>
+            <span>Facturar a</span>
+            <strong id="printClient">Daniel Ruiz</strong>
+          </div>
+          <div>
+            <span>Fecha</span>
+            <strong id="printDate">10/07/2026</strong>
+          </div>
+        </div>
+
+        <table class="invoice-table">
+          <thead>
+            <tr>
+              <th>Concepto</th>
+              <th>Base</th>
+              <th>IVA</th>
+              <th>Total</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td id="printConcept">Sesión profesional</td>
+              <td id="printBase">60,00 €</td>
+              <td id="printVat">0 %</td>
+              <td id="printTotal">60,00 €</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <div class="invoice-total">
+          <span>Total factura</span>
+          <strong id="printGrandTotal">60,00 €</strong>
+        </div>
+
+        <div class="invoice-footer">
+          <p>Forma de pago: Transferencia bancaria</p>
+          <p>Gracias por confiar en nosotros.</p>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <script src="app.js"></script>
+</body>
+</html>
