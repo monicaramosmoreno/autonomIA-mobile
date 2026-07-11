@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#0a8a4b" />
+  <link rel="manifest" href="manifest.json" />
+  <link rel="apple-touch-icon" href="icon-192.png" />
+  <title>AutonomIA Mobile Beta 0.3</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header class="app-header">
+    <div>
+      <strong id="screenTitle">Inicio</strong>
+      <small>AutonomIA</small>
+    </div>
+    <button id="quickAdd" class="icon-btn" aria-label="Añadir">＋</button>
+  </header>
+
+  <main>
+    <section id="home" class="screen active">
+      <h1>¡Buenos días, Mónica!</h1>
+      <p class="muted">Resumen mensual de tu actividad</p>
+
+      <div class="metrics">
+        <article><span>Sesiones este mes</span><b id="metricSessions">28</b></article>
+        <article><span>Gabinetes activos</span><b>2</b></article>
+        <article><span>Por facturar</span><b id="metricPending">1.340 €</b></article>
+        <article><span>Facturas mensuales</span><b>2</b></article>
+      </div>
+
+      <article class="card calendar-connect">
+        <div>
+          <h2>Google Calendar</h2>
+          <p id="calendarStatus" class="muted">No conectado</p>
+        </div>
+        <div class="button-stack">
+          <button id="connectGoogle" class="primary">Conectar Google Calendar</button>
+          <button id="demoSync" class="secondary">Probar sincronización demo</button>
+        </div>
+      </article>
+
+      <article class="card">
+        <div class="card-head">
+          <h2>Resumen por gabinete</h2>
+          <button data-go="centers">Ver detalle</button>
+        </div>
+        <div class="center-summary">
+          <div>
+            <b>Gabinete Centro</b>
+            <span>Lunes y viernes</span>
+            <strong>12 sesiones · 480 €</strong>
+          </div>
+          <div>
+            <b>Gabinete Norte</b>
+            <span>Martes, miércoles y jueves</span>
+            <strong>16 sesiones · 860 €</strong>
+          </div>
+        </div>
+      </article>
+    </section>
+
+    <section id="agenda" class="screen">
+      <div class="month-nav">
+        <button id="prevMonth">‹</button>
+        <div><b id="monthLabel">Julio 2026</b><span>Sesiones importadas</span></div>
+        <button id="nextMonth">›</button>
+      </div>
+
+      <article class="card">
+        <div class="card-head">
+          <h2>Sesiones del mes</h2>
+          <span class="badge" id="sessionCountBadge">28 sesiones</span>
+        </div>
+        <div id="sessionList" class="session-list"></div>
+      </article>
+
+      <article id="manualSessionForm" class="card hidden">
+        <h2>Nueva sesión manual</h2>
+        <label>Gabinete
+          <select id="sessionCenter">
+            <option>Gabinete Centro</option>
+            <option>Gabinete Norte</option>
+          </select>
+        </label>
+        <div class="two">
+          <label>Fecha<input id="sessionDate" type="date"></label>
+          <label>Hora<input id="sessionTime" type="time"></label>
+        </div>
+        <label>Tarifa (€)<input id="sessionRate" type="number" value="40"></label>
+        <button id="saveSession" class="primary">Guardar sesión</button>
+        <p id="sessionStatus" class="status"></p>
+      </article>
+    </section>
+
+    <section id="centers" class="screen">
+      <article class="center-card">
+        <div class="center-head">
+          <div><h2>Gabinete Centro</h2><p>Lunes y viernes</p></div>
+          <span class="badge">12 sesiones</span>
+        </div>
+        <div class="financial-grid">
+          <div><span>Tarifa por sesión</span><b>40 €</b></div>
+          <div><span>Total del mes</span><b>480 €</b></div>
+        </div>
+        <button class="primary create-monthly-invoice" data-center="Gabinete Centro" data-sessions="12" data-rate="40">Crear factura mensual</button>
+      </article>
+
+      <article class="center-card">
+        <div class="center-head">
+          <div><h2>Gabinete Norte</h2><p>Martes, miércoles y jueves</p></div>
+          <span class="badge">16 sesiones</span>
+        </div>
+        <div class="financial-grid">
+          <div><span>Tarifa por sesión</span><b>53,75 €</b></div>
+          <div><span>Total del mes</span><b>860 €</b></div>
+        </div>
+        <button class="primary create-monthly-invoice" data-center="Gabinete Norte" data-sessions="16" data-rate="53.75">Crear factura mensual</button>
+      </article>
+
+      <article class="card">
+        <h2>Nuevo gabinete</h2>
+        <label>Nombre<input id="newCenterName" placeholder="Nombre del gabinete"></label>
+        <label>Días habituales<input id="newCenterDays" placeholder="Ej.: lunes y viernes"></label>
+        <label>Tarifa por sesión (€)<input id="newCenterRate" type="number" value="40"></label>
+        <button id="saveCenter" class="secondary">Guardar gabinete</button>
+      </article>
+    </section>
+
+    <section id="invoices" class="screen">
+      <button id="newInvoiceBtn" class="primary top-action">+ Nueva factura mensual</button>
+
+      <div class="tabs">
+        <button class="active" data-filter="all">Todas</button>
+        <button data-filter="paid">Cobradas</button>
+        <button data-filter="pending">Pendientes</button>
+      </div>
+
+      <div id="invoiceList">
+        <article class="invoice-card" data-state="pending">
+          <div><b>FAC-2026-007</b><span>Gabinete Centro · Julio 2026</span></div>
+          <div><strong>480,00 €</strong><em>Pendiente</em></div>
+        </article>
+        <article class="invoice-card" data-state="paid">
+          <div><b>FAC-2026-006</b><span>Gabinete Norte · Junio 2026</span></div>
+          <div><strong>806,25 €</strong><em class="done">Cobrada</em></div>
+        </article>
+      </div>
+
+      <article id="invoiceForm" class="card hidden">
+        <h2>Factura mensual</h2>
+        <label>Gabinete<input id="invoiceCenter"></label>
+        <div class="two">
+          <label>Mes<input id="invoiceMonth" type="month"></label>
+          <label>N.º de sesiones<input id="invoiceSessions" type="number" value="0"></label>
+        </div>
+        <label>Tarifa por sesión (€)<input id="invoiceRate" type="number" value="0" step="0.01"></label>
+        <label>Concepto<input id="invoiceConcept" value="Servicios profesionales del mes"></label>
+        <div class="total-row"><span>Total</span><b id="invoiceTotal">0,00 €</b></div>
+        <button id="saveInvoice" class="primary">Guardar factura</button>
+        <button id="printInvoice" class="secondary">Imprimir / PDF</button>
+      </article>
+    </section>
+
+    <section id="resources" class="screen">
+      <article class="card">
+        <h2>Recursos</h2>
+        <button class="template-btn">Modelo de factura para gabinete</button>
+        <button class="template-btn">Email para enviar factura mensual</button>
+        <button class="template-btn">Resumen mensual de sesiones</button>
+        <button class="template-btn">Acuerdo de colaboración profesional</button>
+      </article>
+    </section>
+
+    <section id="business" class="screen">
+      <article class="card">
+        <h2>Mi negocio</h2>
+        <label>Nombre profesional<input value="Mónica Pérez"></label>
+        <label>NIF<input value="12345678X"></label>
+        <label>Email<input value="monica@consulta.es"></label>
+      </article>
+
+      <article class="card">
+        <h2>Integraciones</h2>
+        <div class="integration-row">
+          <div><b>Google Calendar</b><span id="businessCalendarStatus">No conectado</span></div>
+          <button id="businessConnectGoogle" class="secondary">Conectar</button>
+        </div>
+      </article>
+
+      <article class="card">
+        <h2>Configuración de Google</h2>
+        <p class="muted">Para activar la sincronización real, introduce las credenciales de Google Cloud.</p>
+        <label>Client ID<input id="googleClientId" placeholder="xxxxxxxx.apps.googleusercontent.com"></label>
+        <label>API Key<input id="googleApiKey" placeholder="AIza..."></label>
+        <button id="saveGoogleConfig" class="secondary">Guardar configuración</button>
+        <p id="googleConfigStatus" class="status"></p>
+      </article>
+    </section>
+  </main>
+
+  <nav class="bottom-nav">
+    <button data-go="home" class="active">⌂<span>Inicio</span></button>
+    <button data-go="agenda">▣<span>Sesiones</span></button>
+    <button data-go="centers">▤<span>Gabinetes</span></button>
+    <button data-go="invoices">€<span>Facturas</span></button>
+    <button data-go="resources">•••<span>Recursos</span></button>
+  </nav>
+
+  <script src="https://apis.google.com/js/api.js"></script>
+  <script src="https://accounts.google.com/gsi/client"></script>
+  <script src="app.js"></script>
+</body>
+</html>
