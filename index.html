@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#167353">
+  <meta name="description" content="AutonomIA: organiza sesiones, facturas y tareas de tu actividad profesional.">
+  <link rel="manifest" href="manifest.json">
+  <link rel="apple-touch-icon" href="icon-192.png">
+  <title>AutonomIA · Tu negocio, más sencillo</title>
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="ari.css">
+</head>
+<body>
+  <aside class="sidebar" aria-label="Navegación principal">
+    <a class="brand" href="#" data-go="home" aria-label="AutonomIA, inicio">
+      <span class="brand-mark">A</span><span><b>autonom<span>IA</span></b><small>Tu negocio, más sencillo</small></span>
+    </a>
+    <nav class="side-nav">
+      <button data-go="home" class="active"><span>⌂</span>Inicio</button>
+      <button data-go="sessions"><span>▣</span>Sesiones</button>
+      <button data-go="centers"><span>▤</span>Gabinetes</button>
+      <button data-go="invoices"><span>€</span>Facturas</button>
+      <button data-go="resources"><span>◇</span>Recursos</button>
+    </nav>
+    <button class="ari-side" id="openAriSide">
+      <span class="ari-avatar">✦</span>
+      <span><b>Pregunta a Ari</b><small>Tu asistente de confianza</small></span>
+    </button>
+    <button class="profile-link" data-go="business"><span class="profile-avatar">MR</span><span><b>Mi negocio</b><small>Configuración</small></span><span>›</span></button>
+  </aside>
+
+  <div class="app-shell">
+    <header class="app-header">
+      <div><strong id="screenTitle">Inicio</strong><small id="headerSubtitle">Todo bajo control</small></div>
+      <div class="header-actions">
+        <button id="openAriHeader" class="ari-header"><span>✦</span> Pregunta a Ari</button>
+        <button id="quickAdd" class="icon-btn" aria-label="Añadir nuevo">＋</button>
+        <button class="avatar-btn" data-go="business" aria-label="Abrir Mi negocio">MR</button>
+      </div>
+    </header>
+
+    <main>
+      <section id="home" class="screen active">
+        <div class="welcome-row">
+          <div><p class="eyebrow">RESUMEN DE <span id="summaryMonth">ESTE MES</span></p><h1 id="welcomeTitle">Buenos días, Mónica</h1><p class="muted">Aquí tienes lo importante de tu actividad profesional.</p></div>
+          <button class="primary compact" id="homeNewInvoice">＋ Nueva factura</button>
+        </div>
+
+        <div class="metrics">
+          <article><span class="metric-icon mint">▣</span><div><span>Sesiones</span><b id="metricSessions">0</b><small>este mes</small></div></article>
+          <article><span class="metric-icon blue">▤</span><div><span>Gabinetes activos</span><b id="metricCenters">0</b><small>con actividad</small></div></article>
+          <article class="featured"><span class="metric-icon green">€</span><div><span>Total a facturar</span><b id="metricPending">0 €</b><small>importe estimado</small></div></article>
+          <article><span class="metric-icon amber">!</span><div><span>Por revisar</span><b id="metricUnclassified">0</b><small>sin clasificar</small></div></article>
+        </div>
+
+        <div class="home-grid">
+          <div>
+            <article class="card">
+              <div class="card-head"><div><p class="eyebrow">ACTIVIDAD</p><h2>Resumen por gabinete</h2></div><button data-go="centers">Ver detalle →</button></div>
+              <div id="centerSummary" class="center-summary empty-state">Conecta tu calendario o añade una sesión para empezar.</div>
+            </article>
+            <article class="card calendar-connect">
+              <div class="calendar-copy"><span class="google-icon">G</span><div><h2>Google Calendar</h2><p id="calendarStatus" class="muted">No conectado</p></div></div>
+              <div class="button-stack"><button id="connectGoogle" class="primary">Conectar calendario</button><button id="syncGoogle" class="secondary hidden">Sincronizar ahora</button></div>
+            </article>
+          </div>
+          <aside class="quick-panel">
+            <article class="ari-card">
+              <span class="ari-orbit">✦</span><p class="eyebrow">CONOCE A ARI</p><h2>Convierte tu voz en trabajo hecho</h2><p>Graba una nota después de la sesión y Ari preparará un informe estructurado para que solo tengas que revisarlo.</p>
+              <button id="openAriCard">Crear informe con Ari <span>→</span></button>
+            </article>
+            <article class="card quick-actions"><p class="eyebrow">ACCESOS RÁPIDOS</p><button id="quickSession"><span>＋</span><b>Añadir sesión</b><small>Registro manual</small></button><button data-go="centers"><span>＋</span><b>Nuevo gabinete</b><small>Añade un centro</small></button><button data-go="resources"><span>◇</span><b>Ver recursos</b><small>Plantillas y guías</small></button></article>
+          </aside>
+        </div>
+      </section>
+
+      <section id="sessions" class="screen">
+        <div class="page-intro"><div><h1>Tus sesiones</h1><p class="muted">Consulta y organiza tu actividad mensual.</p></div><button id="addSessionTop" class="primary compact">＋ Añadir sesión</button></div>
+        <div class="month-nav"><button id="prevMonth" aria-label="Mes anterior">‹</button><div><b id="monthLabel"></b><span>Sesiones sincronizadas</span></div><button id="nextMonth" aria-label="Mes siguiente">›</button></div>
+        <article class="card"><div class="card-head"><h2>Sesiones del mes</h2><span class="badge" id="sessionCountBadge">0 sesiones</span></div><div id="sessionList" class="session-list empty-state">Todavía no hay sesiones.</div></article>
+        <article id="manualSessionForm" class="card form-card hidden"><div class="card-head"><h2>Nueva sesión manual</h2><button id="cancelSession" class="close-btn" aria-label="Cerrar">×</button></div><label>Gabinete<select id="sessionCenter"></select></label><div class="two"><label>Fecha<input id="sessionDate" type="date"></label><label>Hora<input id="sessionTime" type="time"></label></div><label>Tarifa (€)<input id="sessionRate" type="number" value="40" step="0.01"></label><button id="saveSession" class="primary">Guardar sesión</button><p id="sessionStatus" class="status"></p></article>
+      </section>
+
+      <section id="centers" class="screen">
+        <div class="page-intro"><div><h1>Gabinetes</h1><p class="muted">Configura dónde trabajas y cuánto facturas.</p></div></div>
+        <div id="centerCards" class="center-cards"></div>
+        <article class="card form-card"><p class="eyebrow">NUEVO</p><h2>Añadir gabinete</h2><label>Nombre<input id="newCenterName" placeholder="Ej.: Centro Alameda"></label><label>Palabras para identificarlo<input id="newCenterKeywords" placeholder="Ej.: alameda, consulta alameda"></label><div class="two"><label>Días habituales<input id="newCenterDays" placeholder="Lunes y viernes"></label><label>Tarifa por sesión (€)<input id="newCenterRate" type="number" value="40" step="0.01"></label></div><button id="saveCenter" class="primary">Guardar gabinete</button><p id="centerStatus" class="status"></p></article>
+      </section>
+
+      <section id="invoices" class="screen">
+        <div class="page-intro"><div><h1>Facturas</h1><p class="muted">Crea y controla tus facturas mensuales.</p></div><button id="newInvoiceBtn" class="primary compact">＋ Nueva factura</button></div>
+        <div class="tabs"><button class="active" data-filter="all">Todas</button><button data-filter="paid">Cobradas</button><button data-filter="pending">Pendientes</button></div><div id="invoiceList"></div>
+        <article id="invoiceForm" class="card form-card hidden"><h2>Nueva factura mensual</h2><label>Gabinete<input id="invoiceCenter"></label><div class="two"><label>Mes<input id="invoiceMonth" type="month"></label><label>N.º sesiones<input id="invoiceSessions" type="number" value="0"></label></div><label>Tarifa por sesión (€)<input id="invoiceRate" type="number" value="0" step="0.01"></label><label>Concepto<input id="invoiceConcept" value="Servicios profesionales del mes"></label><div class="total-row"><span>Total</span><b id="invoiceTotal">0,00 €</b></div><button id="saveInvoice" class="primary">Guardar factura</button><button id="previewInvoice" class="secondary">Vista previa / PDF</button><button id="cancelInvoice" class="text-button">Cancelar</button></article>
+      </section>
+
+      <section id="resources" class="screen"><div class="page-intro"><div><h1>Recursos</h1><p class="muted">Documentos útiles listos para personalizar.</p></div></div><article class="card resource-list"><button class="resource-btn" data-resource="invoice"><span>🧾</span><div><b>Modelo de factura mensual</b><small>Plantilla editable</small></div><i>›</i></button><button class="resource-btn" data-resource="email"><span>✉️</span><div><b>Email para enviar factura</b><small>Texto listo para copiar</small></div><i>›</i></button><button class="resource-btn" data-resource="summary"><span>📊</span><div><b>Resumen mensual de sesiones</b><small>Informe por gabinete</small></div><i>›</i></button><button class="resource-btn" data-resource="agreement"><span>🤝</span><div><b>Acuerdo de colaboración</b><small>Documento orientativo</small></div><i>›</i></button></article><article id="resourceViewer" class="card hidden"><h2 id="resourceTitle"></h2><textarea id="resourceBody" rows="10"></textarea><button id="copyResource" class="primary">Copiar texto</button><button id="closeResource" class="text-button">Cerrar</button></article></section>
+
+      <section id="business" class="screen"><div class="page-intro"><div><h1>Mi negocio</h1><p class="muted">Datos profesionales y conexiones.</p></div></div><article class="card form-card"><h2>Datos de facturación</h2><label>Nombre profesional<input id="businessName" value="Nombre profesional"></label><div class="two"><label>NIF<input id="businessNif"></label><label>Email<input id="businessEmail" type="email"></label></div><button id="saveBusiness" class="primary">Guardar cambios</button></article><article class="card"><h2>Integraciones</h2><div class="integration-row"><div class="calendar-copy"><span class="google-icon">G</span><div><b>Google Calendar</b><span id="businessCalendarStatus">No conectado</span></div></div><button id="businessConnectGoogle" class="secondary compact">Conectar</button></div><p class="privacy-note">🔒 Tus datos se guardan en este dispositivo. AutonomIA solo solicita acceso de lectura a tu calendario.</p></article></section>
+
+      <section id="invoicePreview" class="screen invoice-preview"><article class="invoice-paper"><div class="invoice-head"><div><h1>FACTURA</h1><span id="previewNumber">FAC-001</span></div><div class="right"><b id="previewBusiness">Nombre profesional</b><span id="previewNif"></span><span id="previewEmail"></span></div></div><div class="invoice-meta"><div><span>Facturar a</span><b id="previewCenter"></b></div><div><span>Periodo</span><b id="previewMonth"></b></div></div><div class="invoice-line"><div><b id="previewConcept"></b><span id="previewSessions"></span></div><strong id="previewTotal"></strong></div><div class="invoice-grand-total"><span>Total</span><b id="previewGrandTotal"></b></div><button id="printInvoice" class="primary">Imprimir / guardar PDF</button><button id="closePreview" class="text-button">Volver</button></article></section>
+    </main>
+  </div>
+
+  <nav class="bottom-nav" aria-label="Navegación móvil"><button data-go="home" class="active">⌂<span>Inicio</span></button><button data-go="sessions">▣<span>Sesiones</span></button><button data-go="centers">▤<span>Gabinetes</span></button><button data-go="invoices">€<span>Facturas</span></button><button data-go="resources">◇<span>Recursos</span></button></nav>
+
+  <div id="ariOverlay" class="ari-overlay hidden" role="dialog" aria-modal="true" aria-labelledby="ariTitle">
+    <div class="ari-modal">
+      <header><div class="ari-title"><span class="ari-avatar">✦</span><div><b id="ariTitle">ARI · Notas Inteligentes</b><small>Beta local con casos ficticios</small></div></div><button id="closeAri" aria-label="Cerrar">×</button></header>
+      <div id="ariMessages" class="ari-messages">
+        <div class="ari-bubble"><b>Convierte una nota en un informe editable</b><p>Elige la especialidad, dicta o escribe un caso ficticio y revisa siempre el borrador antes de guardarlo.</p></div>
+        <div class="voice-workflow">
+          <div class="ari-two"><label>Especialidad<select id="ariSpecialty"><option value="psychology">Psicología</option><option value="speech">Logopedia</option><option value="physio">Fisioterapia</option></select></label><label>Tipo de documento<select id="ariReportType"><option value="evolution">Nota de evolución</option><option value="session">Informe de sesión</option><option value="followup">Resumen de seguimiento</option></select></label></div>
+          <button id="recordVoice" class="record-button"><span>●</span><b>Iniciar dictado</b><small>Disponible en Chrome y Edge</small></button>
+          <div class="voice-divider"><span>transcripción editable</span></div>
+          <textarea id="ariNotes" rows="6" placeholder="Usa únicamente información ficticia durante esta beta"></textarea>
+          <button id="loadAriExample" class="secondary">Cargar ejemplo ficticio</button>
+          <button id="generateReport" class="primary">✦ Generar borrador estructurado</button>
+          <p id="ariStatus" class="status" aria-live="polite"></p>
+          <p class="voice-privacy">🔒 Esta beta procesa y guarda el texto únicamente en este dispositivo. No introduzcas datos reales de pacientes.</p>
+        </div>
+        <div id="ariReportEmpty" class="ari-report-empty">El informe aparecerá aquí después de generar el borrador.</div>
+        <div id="ariReportEditor" class="ari-report-editor hidden">
+          <h3 id="ariReportHeading">Nota de evolución</h3>
+          <label>Motivo y contexto<textarea id="ariContext" rows="3"></textarea></label>
+          <label>Observaciones<textarea id="ariObservations" rows="3"></textarea></label>
+          <label>Intervención realizada<textarea id="ariIntervention" rows="3"></textarea></label>
+          <label>Evolución<textarea id="ariEvolution" rows="3"></textarea></label>
+          <label>Plan y próximos pasos<textarea id="ariPlan" rows="3"></textarea></label>
+          <label>Revisión profesional<textarea id="ariReview" rows="2" placeholder="Añade correcciones o validación final"></textarea></label>
+          <div class="ari-actions"><button id="saveAriReport" class="primary">Guardar</button><button id="downloadAriReport" class="secondary">Descargar .txt</button><button id="deleteAriReport" class="danger-button">Eliminar</button></div>
+        </div>
+      </div>
+      <p class="ari-disclaimer">Borrador demostrativo: no sustituye el criterio profesional ni está preparado para datos clínicos reales.</p>
+    </div>
+  </div>
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+  <script src="config.js"></script><script src="https://accounts.google.com/gsi/client"></script><script src="app.js"></script>
+</body>
+</html>

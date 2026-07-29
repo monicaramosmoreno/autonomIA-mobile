@@ -1,0 +1,12 @@
+.voice-workflow{background:#fff;border:1px solid var(--line);border-radius:16px;padding:16px;margin-top:15px}
+.voice-workflow label{margin:8px 0 12px}.record-button{width:100%;border:1px solid #cce3da;background:var(--green-soft);border-radius:12px;padding:13px;display:grid;grid-template-columns:34px 1fr;grid-template-rows:auto auto;text-align:left;column-gap:8px}
+.record-button>span{grid-row:1/3;display:grid;place-items:center;background:#fff;color:#db3f3f;border-radius:50%}.record-button b{font-size:12px}.record-button small{font-size:10px;color:var(--muted);margin-top:2px}
+.record-button.recording{background:#fff0f0;border-color:#efb8b8}.record-button.recording>span{animation:pulse 1s infinite}@keyframes pulse{50%{transform:scale(.72);opacity:.55}}
+.voice-divider{display:flex;align-items:center;gap:8px;color:#99a5a1;font-size:9px;margin:13px 0}.voice-divider:before,.voice-divider:after{content:"";height:1px;background:var(--line);flex:1}.voice-workflow textarea{margin:0;resize:vertical}.voice-privacy{font-size:9px;color:#74827d;line-height:1.4;margin:10px 0 0}
+.ari-bubble p{white-space:pre-line}
+.ari-two{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.ari-report-empty{border:1px dashed #c7d9d2;border-radius:14px;padding:22px;text-align:center;color:var(--muted);font-size:12px;margin-top:14px}
+.ari-report-editor{background:#fff;border:1px solid var(--line);border-radius:16px;padding:16px;margin-top:14px}
+.ari-report-editor h3{margin:0 0 8px}.ari-report-editor textarea{resize:vertical}
+.ari-actions{display:grid;grid-template-columns:1fr 1fr;gap:8px}.ari-actions .danger-button{grid-column:1/-1;border:1px solid #efc7c7;background:#fff4f4;color:#a63b3b;border-radius:11px;padding:11px;font-weight:750}
+@media(max-width:560px){.ari-two,.ari-actions{grid-template-columns:1fr}.ari-actions .danger-button{grid-column:auto}}
